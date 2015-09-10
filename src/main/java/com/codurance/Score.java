@@ -24,13 +24,16 @@ public class Score {
     }
 
     private Player playerWithHighestCard(Map<Player, Card> cardsPlayed) {
-        Map.Entry<Player, Card> entry = null;
+        Map.Entry<Player, Card> entryWithHighestCard = cardsPlayed.entrySet().iterator().next();
         return cardsPlayed
                     .entrySet()
                     .stream()
-                    .reduce(entry, (e1, e2) -> e1.getValue().rank()
-                                                    .compareTo(e2.getValue().rank()) > 0 ? e1 : e2)
+                    .reduce(entryWithHighestCard, (e1, e2) -> entryWithHigherCard(e1, e2))
                     .getKey();
+    }
+
+    private Map.Entry<Player, Card> entryWithHigherCard(Map.Entry<Player, Card> e1, Map.Entry<Player, Card> e2) {
+        return e1.getValue().rank().greaterThan(e2.getValue().rank()) ? e1 : e2;
     }
 
     private void initialiseScoringFor(Players players) {
